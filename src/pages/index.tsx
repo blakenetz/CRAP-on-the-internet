@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "@/styles/Home.module.css";
 
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
@@ -5,6 +7,7 @@ import { Inter } from "next/font/google";
 import Head from "next/head";
 
 import { getRandomIntInclusive, getRandomStateCode } from "@/util";
+import { devData } from "@/data/devData";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +16,18 @@ headers.append("X-Api-Key", process.env.NPS_API_KEY!);
 
 const limit = 100;
 
+type Data = {
+  title: string;
+  imageUrl: string;
+  stateCode: string;
+  park: string;
+};
+
 export const getStaticProps = (async () => {
+  if (process.env.NODE_ENV === "development") {
+    return { props: { data: devData } };
+  }
+
   const params = new URLSearchParams([
     ["stateCode", getRandomStateCode()],
     ["q", "animals"],
@@ -41,13 +55,14 @@ export const getStaticProps = (async () => {
     },
   };
 }) satisfies GetStaticProps<{
-  data: any;
+  data: Data;
 }>;
 
 export default function Home({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   console.log(data);
+
   return (
     <>
       <Head>
