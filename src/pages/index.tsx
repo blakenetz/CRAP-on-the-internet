@@ -1,11 +1,53 @@
-import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
+import { Inter } from "next/font/google";
+import Head from "next/head";
+
+import { getRandomIntInclusive, getRandomStateCode } from "@/util";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+const headers = new Headers({ method: "GET" });
+headers.append("X-Api-Key", process.env.NPS_API_KEY!);
+
+const limit = 100;
+
+export const getStaticProps = (async () => {
+  const params = new URLSearchParams([
+    ["stateCode", getRandomStateCode()],
+    ["q", "animals"],
+    ["limit", limit.toString()],
+  ]).toString();
+
+  const res = await fetch(
+    "https://developer.nps.gov/api/v1/multimedia/galleries/assets?" + params,
+    { headers }
+  );
+  const { data, total } = await res.json();
+
+  const max = total <= limit ? total : limit;
+  const { permalinkUrl, relatedParks, title } =
+    data[getRandomIntInclusive(max)];
+
+  return {
+    props: {
+      data: {
+        title,
+        imageUrl: permalinkUrl,
+        stateCode: relatedParks[0].states,
+        park: relatedParks[0].fullName,
+      },
+    },
+  };
+}) satisfies GetStaticProps<{
+  data: any;
+}>;
+
+export default function Home({
+  data,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  console.log(data);
   return (
     <>
       <Head>
@@ -17,11 +59,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <h1>NPS</h1>
-        <h2>National Park Squiz</h2>
-        <p>Good luck, chuck.</p>
-      </main>
+      <main className={`${styles.main} ${inter.className}`}></main>
     </>
   );
 }
