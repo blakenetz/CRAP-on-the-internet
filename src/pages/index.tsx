@@ -5,6 +5,8 @@ import Head from "next/head";
 import { devData } from "@/data/devData";
 import { getRandomIntInclusive, getRandomStateCode } from "@/util";
 import Quiz from "@/components/quiz";
+import Header from "@/components/header";
+import styles from "@/styles/Home.module.css";
 
 // Request stuff
 export type Data = {
@@ -69,7 +71,10 @@ export default function Home({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Quiz data={data} />
+      <section className={styles.root}>
+        <Header />
+        <Quiz data={data} />
+      </section>
     </>
   );
 }

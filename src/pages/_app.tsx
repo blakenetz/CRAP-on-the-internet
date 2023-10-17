@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import "semantic-ui-css/semantic.min.css";
 
 import type { AppProps } from "next/app";
 
@@ -44,7 +43,7 @@ const nationalPark = localFont({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={`${inter.className} ${nationalPark.className}`}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </main>
   );
 }
