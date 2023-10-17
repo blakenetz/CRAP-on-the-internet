@@ -1,27 +1,23 @@
-"use client";
-
-import styles from "@/styles/Home.module.css";
-
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import { Inter } from "next/font/google";
+
 import Head from "next/head";
 
-import { getRandomIntInclusive, getRandomStateCode } from "@/util";
 import { devData } from "@/data/devData";
+import { getRandomIntInclusive, getRandomStateCode } from "@/util";
+import Quiz from "@/components/quiz";
 
-const inter = Inter({ subsets: ["latin"] });
+// Request stuff
+export type Data = {
+  title: string;
+  imageInfo: { url: string; width: number; height: number; alt: string };
+  stateCode: string;
+  park: string;
+};
 
 const headers = new Headers({ method: "GET" });
 headers.append("X-Api-Key", process.env.NPS_API_KEY!);
 
 const limit = 100;
-
-type Data = {
-  title: string;
-  imageUrl: string;
-  stateCode: string;
-  park: string;
-};
 
 export const getStaticProps = (async () => {
   if (process.env.NODE_ENV === "development") {
@@ -41,16 +37,16 @@ export const getStaticProps = (async () => {
   const { data, total } = await res.json();
 
   const max = total <= limit ? total : limit;
-  const { permalinkUrl, relatedParks, title } =
+  const { fileInfo, relatedParks, title, description } =
     data[getRandomIntInclusive(max)];
 
   return {
     props: {
       data: {
         title,
-        imageUrl: permalinkUrl,
-        stateCode: relatedParks[0].states,
         park: relatedParks[0].fullName,
+        imageInfo: { ...fileInfo, alt: description },
+        stateCode: relatedParks[0].states,
       },
     },
   };
@@ -61,8 +57,6 @@ export const getStaticProps = (async () => {
 export default function Home({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(data);
-
   return (
     <>
       <Head>
@@ -74,7 +68,8 @@ export default function Home({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}></main>
+
+      <Quiz data={data} />
     </>
   );
 }

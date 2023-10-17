@@ -1,7 +1,13 @@
-export const devData = {
+import { Data } from "@/pages";
+
+export const devData: Data = {
   title: "Entelodont",
-  imageUrl:
-    "https://www.nps.gov/media/photo/gallery-item.htm?pg=1&id=F9BECD14-0225-0C50-166F-82667BE4C5D7&gid=C559451C-E1A8-745A-15D1-88C2EBF8A5C3",
+  imageInfo: {
+    url: "https://www.nps.gov/npgallery/GetAsset/9197D153-25D9-4A47-9210-81983E657626",
+    width: 1080,
+    height: 706,
+    alt: "animal pen surrounded by woodland",
+  },
   stateCode: "OR",
   park: "John Day Fossil Beds National Monument",
 };
