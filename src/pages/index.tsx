@@ -1,60 +1,12 @@
-import type { GetStaticProps, InferGetStaticPropsType } from "next";
+import type { InferGetStaticPropsType } from "next";
 
 import Head from "next/head";
 
-import { devData } from "@/data/devData";
-import { getRandomIntInclusive, getRandomStateCode } from "@/util";
-import Quiz from "@/components/quiz";
-import Header from "@/components/header";
+import Quiz from "@/components/npsQuiz";
 import styles from "@/styles/Home.module.css";
+import { getNPSData } from "@/util";
 
-// Request stuff
-export type Data = {
-  title: string;
-  imageInfo: { url: string; width: number; height: number; alt: string };
-  stateCode: string;
-  park: string;
-};
-
-const headers = new Headers({ method: "GET" });
-headers.append("X-Api-Key", process.env.NPS_API_KEY!);
-
-const limit = 100;
-
-export const getStaticProps = (async () => {
-  if (process.env.NODE_ENV === "development") {
-    return { props: { data: devData } };
-  }
-
-  const params = new URLSearchParams([
-    ["stateCode", getRandomStateCode()],
-    ["q", "animals"],
-    ["limit", limit.toString()],
-  ]).toString();
-
-  const res = await fetch(
-    "https://developer.nps.gov/api/v1/multimedia/galleries/assets?" + params,
-    { headers }
-  );
-  const { data, total } = await res.json();
-
-  const max = total <= limit ? total : limit;
-  const { fileInfo, relatedParks, title, description } =
-    data[getRandomIntInclusive(max)];
-
-  return {
-    props: {
-      data: {
-        title,
-        park: relatedParks[0].fullName,
-        imageInfo: { ...fileInfo, alt: description },
-        stateCode: relatedParks[0].states,
-      },
-    },
-  };
-}) satisfies GetStaticProps<{
-  data: Data;
-}>;
+export const getStaticProps = async () => await getNPSData();
 
 export default function Home({
   data,
@@ -62,17 +14,16 @@ export default function Home({
   return (
     <>
       <Head>
-        <title>NPS</title>
+        <title>C.R.A.P.</title>
         <meta
           name="description"
-          content="NPS: a National Park Squiz. Thanks for playing :)"
+          content="CRAP. A shitty place on the internet"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <section className={styles.root}>
-        <Header />
         <Quiz data={data} />
       </section>
     </>
