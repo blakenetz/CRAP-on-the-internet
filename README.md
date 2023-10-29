@@ -1,5 +1,5 @@
-## NPS
+## CRAP on the internet
 
-National Park Squiz.
+Christian's Really O-mazing Place... on the internet
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

@@ -1,5 +1,5 @@
 {
-  "name": "np-squiz",
+  "name": "CRAP",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,5 +20,10 @@
     "eslint": "^8",
     "eslint-config-next": "13.5.5",
     "typescript": "^5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:blakenetz/CRAP-on-the-internet.git"
+  },
+  "author": "Blake Netzeband <blake.netzeband@gmail.com> (https://blakenetzeband.com/)"
 }
