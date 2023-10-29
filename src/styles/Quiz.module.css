@@ -9,3 +9,7 @@
 
 .form input {
 }
+
+.error {
+  border: 2px solid var(--error);
+}

@@ -1,28 +1,35 @@
 import Image from "next/image";
 
-import styles from "@/styles/Quiz.module.css";
 import React from "react";
+import Select, { OptionsOrGroups, SelectInstance } from "react-select";
+
+import styles from "@/styles/Quiz.module.css";
 import { NPSData } from "@/util";
+import { states } from "@/data/stateCodes";
+
+const options = Object.keys(states).map((key) => ({
+  value: key,
+  label: states[key as keyof typeof states],
+}));
 
 export default function Quiz({ data }: { data: NPSData }) {
-  const [value, setValue] = React.useState("");
+  const ref = React.useRef<SelectInstance>(null);
+  const [invalid, setInvalid] = React.useState(false);
 
-  const handleChange = React.useCallback<
-    React.ChangeEventHandler<HTMLInputElement>
-  >((e) => setValue(e.target.value), []);
-
-  const handleSubmit = React.useCallback(() => {}, []);
-
-  const handleKeyDown = React.useCallback<
-    React.KeyboardEventHandler<HTMLInputElement>
+  const handleSubmit = React.useCallback<
+    React.FormEventHandler<HTMLFormElement>
   >(
     (e) => {
-      if (e.code === "Enter") {
-        handleSubmit();
+      e.preventDefault();
+      const value = ref.current?.getValue()[0];
+      if (value !== data.stateCode) {
+        setInvalid(true);
       }
     },
-    [handleSubmit]
+    [data.stateCode]
   );
+
+  const handleFocus = () => ref.current?.setValue("", "deselect-option");
 
   return (
     <section className={styles.root}>
@@ -34,12 +41,20 @@ export default function Quiz({ data }: { data: NPSData }) {
         onSubmit={handleSubmit}
         className={[styles.root, styles.form].join(" ")}
       >
-        <input
-          value={value}
-          onChange={handleChange}
+        <Select
+          options={options}
           aria-labelledby="label"
-          onKeyDown={handleKeyDown}
+          name="answer"
+          className={invalid ? styles.error : ""}
+          ref={ref}
+          aria-invalid={invalid}
+          placeholder=""
+          onChange={() => setInvalid(false)}
+          onFocus={handleFocus}
         />
+
+        {invalid && <p>Wrong! try again</p>}
+
         <button type="submit">Guess</button>
       </form>
     </section>

@@ -2,7 +2,7 @@ import type { InferGetStaticPropsType } from "next";
 
 import Head from "next/head";
 
-import Quiz from "@/components/npsQuiz";
+import Quiz from "@/components/NPSQuiz";
 import styles from "@/styles/Home.module.css";
 import { getNPSData } from "@/util";
 

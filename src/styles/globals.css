@@ -6,6 +6,7 @@
   --spacing: 8px;
   color-scheme: light only;
 
+  --error: #ff6347;
   /* simple.css variables */
   --bg: #fff;
   --accent-bg: #f5f7ff;
@@ -13,7 +14,7 @@
   --text-light: #585858;
   --border: #ffc9b6;
   --accent: #ff8559;
-  --code: #ff6347;
+  --code: var(--error);
   --preformatted: #444;
   --marked: #ffdd33;
   --disabled: #efefef;
@@ -33,7 +34,7 @@ body {
 }
 
 body {
-  background: linear-gradient(-45deg, #f59fd3, #95c9f0, #68c57c, #e7f98e);
+  background: linear-gradient(-45deg, #95c9f0, #7dc58d, #d9e88e);
   background-size: 400% 400%;
   animation: gradient 20s ease infinite;
 }
