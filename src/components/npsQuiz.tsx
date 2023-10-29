@@ -30,7 +30,10 @@ export default function Quiz({ data }: { data: NPSData }) {
         <h3>Alright you sumbitch, where is:</h3>
         <p className={styles.park}>{data.park}</p>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        className={[styles.root, styles.form].join(" ")}
+      >
         <input
           value={value}
           onChange={handleChange}

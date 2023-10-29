@@ -1,7 +1,22 @@
+@import url("~simpledotcss/simple.min.css");
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
   --spacing: 8px;
+  color-scheme: light only;
+
+  /* simple.css variables */
+  --bg: #fff;
+  --accent-bg: #f5f7ff;
+  --text: #240900;
+  --text-light: #585858;
+  --border: #ffc9b6;
+  --accent: #ff8559;
+  --code: #ff6347;
+  --preformatted: #444;
+  --marked: #ffdd33;
+  --disabled: #efefef;
 }
 
 * {
